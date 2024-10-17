@@ -1,7 +1,6 @@
-import { Button, Input } from "antd";
-import React from "react";
-import { useAtom } from "jotai";
 import { addTodoAtom, newTodoItemText } from "@/store";
+import { Button, Input } from "antd";
+import { useAtom } from "jotai";
 
 const AddTodo = () => {
   const [newTodo, setNewTodo] = useAtom(newTodoItemText);

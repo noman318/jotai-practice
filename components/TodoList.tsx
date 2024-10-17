@@ -1,9 +1,11 @@
+import { getUsers } from "@/services/posts";
 import {
   deleteTodoAtom,
   todosAtom,
   toggleTodoAtom,
   updateTodoAtom,
 } from "@/store";
+import { useQuery } from "@tanstack/react-query";
 import { Button, Checkbox, Input } from "antd";
 import { useAtom } from "jotai";
 
@@ -15,6 +17,22 @@ function TodoListItems() {
   const onChange = (id: number) => {
     toggleTodo(id);
   };
+
+  const { data, isLoading, isError } = useQuery({
+    queryFn: async () => await getUsers(),
+    queryKey: ["users"],
+  });
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const newData = data?.map((val: any) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { address, company, ...rest } = val;
+    return rest;
+  });
+  console.log("newData", newData);
+
+  if (isLoading) return <div>Loading..</div>;
+  if (isError) return <div>Sorry There was an Error</div>;
   return (
     <>
       {todos?.length > 0 && (
